@@ -152,7 +152,7 @@ namespace ConsoleApp4
         [DataRow("")]
         [DataRow(PrivateConstructorTestCode)]
         [DataRow(InheritDocTestCode)]
-        public async Task TestMethod1(string test)
+        public async Task NoDiagnosticTriggered(string test)
         {
             await VerifyCS.VerifyAnalyzerAsync(test);
         }
@@ -161,7 +161,7 @@ namespace ConsoleApp4
         [DataTestMethod]
         [DataRow(PublicConstructorTestCode, PublicContructorTestFixCode, ConstructorAnalyzer.DiagnosticId,ConstructorAnalyzer.MessageFormat, 10, 10)]
         [DataRow(PublicConstructorWithBooleanParameterTestCode, PublicContructorWithBooleanParameterTestFixCode, ConstructorAnalyzer.DiagnosticId, ConstructorAnalyzer.MessageFormat, 10, 10)]
-        public async Task TestMethod2(string test, string fixtest,string diagnosticId, string message, int line, int column)
+        public async Task DiagnosticCodeFixTriggered(string test, string fixtest,string diagnosticId, string message, int line, int column)
         {
             var expected = VerifyCS.Diagnostic(diagnosticId)
                 .WithLocation(line, column)

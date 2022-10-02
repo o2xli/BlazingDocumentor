@@ -11,7 +11,7 @@ namespace BlazingDocumentor.Test
     {
         //No diagnostics expected to show up
         [TestMethod]
-        public async Task TestMethod1()
+        public async Task NoDiagnosticTriggered()
         {
             var test = @"";
 
@@ -20,7 +20,7 @@ namespace BlazingDocumentor.Test
 
         //Diagnostic and CodeFix both triggered and checked for
         [TestMethod]
-        public async Task TestMethod2()
+        public async Task DiagnosticCodeFixTriggered()
         {
             var test = @"
 using System;
