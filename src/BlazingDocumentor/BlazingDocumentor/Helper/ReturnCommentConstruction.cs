@@ -37,7 +37,7 @@ namespace BlazingDocumentor.Helper
 
 		private string GeneratePredefinedTypeComment(PredefinedTypeSyntax returnType)
 		{
-			return DetermineStartedWord($"{returnType.Keyword.ValueText} {returnType.Keyword.ValueText}.");
+			return $"{DetermineStartedWord(returnType.Keyword.ValueText)} {returnType.Keyword.ValueText}.";
 		}
 
 		private string GenerateIdentifierNameTypeComment(IdentifierNameSyntax returnType)
@@ -52,7 +52,7 @@ namespace BlazingDocumentor.Helper
 
 		private string GenerateArrayTypeComment(ArrayTypeSyntax arrayTypeSyntax)
 		{
-			return "An array of " + DetermineSpecificObjectName(arrayTypeSyntax.ElementType);
+			return $"An array of {DetermineSpecificObjectName(arrayTypeSyntax.ElementType)}";
 		}
 
 		private string GenerateGenericTypeComment(GenericNameSyntax returnType)
@@ -60,12 +60,17 @@ namespace BlazingDocumentor.Helper
 			string genericTypeStr = returnType.Identifier.ValueText;
 			if (genericTypeStr.Contains("ReadOnlyCollection"))
 			{
-				return "A read only collection of " + DetermineSpecificObjectName(returnType.TypeArgumentList.Arguments.First());
+				return $"A read only collection of {DetermineSpecificObjectName(returnType.TypeArgumentList.Arguments.First())}";
 			}
+
+            if (genericTypeStr == "IEnumerable" || genericTypeStr.Contains("List"))
+            {
+                return $"A list of {DetermineSpecificObjectName(returnType.TypeArgumentList.Arguments.First())}";
+            }
 
             if (genericTypeStr == "Task" )
             {
-                return "A Task result of " + DetermineSpecificObjectName(returnType.TypeArgumentList.Arguments.First());
+                return $"A Task result of {DetermineSpecificObjectName(returnType.TypeArgumentList.Arguments.First())}";
             }
 
             if (genericTypeStr.Contains("Dictionary"))

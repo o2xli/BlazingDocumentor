@@ -331,7 +331,7 @@ namespace ConsoleApp4
 	{
 		public int ShowMethodWithIntReturnTester()
 		{
-			return null;
+			return 12;
 		}
 	}
 }";
@@ -354,7 +354,7 @@ namespace ConsoleApp4
         /// <returns>An int.</returns>
         public int ShowMethodWithIntReturnTester()
 		{
-			return null;
+			return 12;
 		}
 	}
 }";
@@ -536,12 +536,12 @@ namespace ConsoleApp4
         [DataRow(MethodWithBooleanParameterTestCode, MethodWithBooleanParameterTestFixCode, MethodAnalyzer.DiagnosticId, MethodAnalyzer.MessageFormat, 10, 15)]
         [DataRow(MethodWithNullableStructParameterTestCode, MethodWithNullableStructParameterTestFixCode, MethodAnalyzer.DiagnosticId, MethodAnalyzer.MessageFormat, 10, 15)]
         [DataRow(MethodWithReturnTestCode, MethodWithReturnTestFixCode, MethodAnalyzer.DiagnosticId, MethodAnalyzer.MessageFormat, 10, 23)]
-        //[DataRow(MethodWithStringReturnTestCode, MethodWithStringReturnTestFixCode, MethodAnalyzer.DiagnosticId, MethodAnalyzer.MessageFormat, 10, 17)]
-        //[DataRow(MethodWithObjectReturnTestCode, MethodWithObjectReturnTestFixCode, MethodAnalyzer.DiagnosticId, MethodAnalyzer.MessageFormat, 10, 17)]
-        //[DataRow(MethodWithIntReturnTestCode, MethodWithIntReturnTestFixCode, MethodAnalyzer.DiagnosticId, MethodAnalyzer.MessageFormat, 10, 14)]
-        //[DataRow(MethodWithListIntReturnTestCode, MethodWithListIntReturnTestFixCode, MethodAnalyzer.DiagnosticId, MethodAnalyzer.MessageFormat, 10, 20)]
-        //[DataRow(MethodWithListListIntReturnTestCode, MethodWithListListIntReturnTestFixCode, MethodAnalyzer.DiagnosticId, MethodAnalyzer.MessageFormat, 10, 26)]
-        //[DataRow(MethodWithListQualifiedNameReturnTestCode, MethodWithListQualifiedNameReturnTestFixCode, MethodAnalyzer.DiagnosticId, MethodAnalyzer.MessageFormat, 10, 41)]
+        [DataRow(MethodWithStringReturnTestCode, MethodWithStringReturnTestFixCode, MethodAnalyzer.DiagnosticId, MethodAnalyzer.MessageFormat, 10, 17)]
+        [DataRow(MethodWithObjectReturnTestCode, MethodWithObjectReturnTestFixCode, MethodAnalyzer.DiagnosticId, MethodAnalyzer.MessageFormat, 10, 17)]
+        [DataRow(MethodWithIntReturnTestCode, MethodWithIntReturnTestFixCode, MethodAnalyzer.DiagnosticId, MethodAnalyzer.MessageFormat, 10, 14)]
+        [DataRow(MethodWithListIntReturnTestCode, MethodWithListIntReturnTestFixCode, MethodAnalyzer.DiagnosticId, MethodAnalyzer.MessageFormat, 10, 20)]
+        [DataRow(MethodWithListListIntReturnTestCode, MethodWithListListIntReturnTestFixCode, MethodAnalyzer.DiagnosticId, MethodAnalyzer.MessageFormat, 10, 26)]
+        [DataRow(MethodWithListQualifiedNameReturnTestCode, MethodWithListQualifiedNameReturnTestFixCode, MethodAnalyzer.DiagnosticId, MethodAnalyzer.MessageFormat, 10, 41)]
         public async Task DiagnosticCodeFixTriggered(string test, string fixtest,string diagnosticId, string message, int line, int column)
         {
             var expected = VerifyCS.Diagnostic(diagnosticId)
