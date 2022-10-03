@@ -53,7 +53,7 @@ namespace BlazingDocumentor
 			else if (declarationSyntax.Type.IsKind(SyntaxKind.NullableType))
 			{
 				var retrunType = ((NullableTypeSyntax)declarationSyntax.Type).ElementType as PredefinedTypeSyntax;
-				isBoolean = retrunType.IsKind(SyntaxKind.BoolKeyword);
+				isBoolean = retrunType.Keyword.IsKind(SyntaxKind.BoolKeyword);
 			}
 
 			bool hasSetter = false;

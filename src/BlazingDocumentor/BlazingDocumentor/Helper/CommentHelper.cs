@@ -64,7 +64,7 @@ namespace BlazingDocumentor.Helper
 			}
 			else
 			{
-                Builder.Append($" the {string.Join(" ", WordSplitter.Split(name).ToLower(false))}");
+                Builder.Append($" the {string.Join(" ", WordSplitter.Split(name).ToLower(true))}");
 			}
 			Builder.Append(".");
 
