@@ -8,7 +8,7 @@ using VerifyCS = BlazingDocumentor.Test.CSharpCodeFixVerifier<
 namespace BlazingDocumentor.Test
 {
     [TestClass]
-    public class FieldUnitTest
+    public class FieldIntegrationTest
     {
         /// <summary>
         /// The inherit doc test code.

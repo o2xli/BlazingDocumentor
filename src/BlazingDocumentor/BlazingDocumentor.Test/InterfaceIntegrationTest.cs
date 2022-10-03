@@ -8,7 +8,7 @@ using VerifyCS = BlazingDocumentor.Test.CSharpCodeFixVerifier<
 namespace BlazingDocumentor.Test
 {
     [TestClass]
-    public class InterfaceUnitTest
+    public class InterfaceIntegrationTest
     {
         /// <summary>
         /// The test code.

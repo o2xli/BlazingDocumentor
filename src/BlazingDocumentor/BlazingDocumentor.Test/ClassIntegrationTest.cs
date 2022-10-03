@@ -7,7 +7,7 @@ using VerifyCS = BlazingDocumentor.Test.CSharpCodeFixVerifier<
 namespace BlazingDocumentor.Test
 {
     [TestClass]
-    public class CLassTest
+    public class ClassIntegrationTest
     {
         //No diagnostics expected to show up
         [TestMethod]
