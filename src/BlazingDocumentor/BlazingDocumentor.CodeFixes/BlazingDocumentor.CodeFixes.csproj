@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\BlazingDocumentor.OpenAI\BlazingDocumentor.OpenAI.csproj" />
     <ProjectReference Include="..\BlazingDocumentor\BlazingDocumentor.csproj" />
   </ItemGroup>
 

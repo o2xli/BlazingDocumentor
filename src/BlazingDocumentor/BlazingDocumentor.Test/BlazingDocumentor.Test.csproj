@@ -28,7 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\BlazingDocumentor.OpenAI\BlazingDocumentor.OpenAI.csproj" />
     <ProjectReference Include="..\BlazingDocumentor.CodeFixes\BlazingDocumentor.CodeFixes.csproj" />
     <ProjectReference Include="..\BlazingDocumentor\BlazingDocumentor.csproj" />
   </ItemGroup>

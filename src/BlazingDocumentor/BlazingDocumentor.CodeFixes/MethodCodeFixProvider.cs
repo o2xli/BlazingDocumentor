@@ -9,6 +9,7 @@ using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using OpenAI_API;
 
 namespace BlazingDocumentor
 {
@@ -44,45 +45,22 @@ namespace BlazingDocumentor
 		private async Task<Document> AddDocumentationHeaderAsync(Document document, SyntaxNode root, MethodDeclarationSyntax declarationSyntax, CancellationToken cancellationToken)
 		{
 			SyntaxTriviaList leadingTrivia = declarationSyntax.GetLeadingTrivia();
-			DocumentationCommentTriviaSyntax commentTrivia = await Task.Run(() => CreateDocumentationCommentTriviaSyntax(declarationSyntax), cancellationToken);
 
-			SyntaxTriviaList newLeadingTrivia = leadingTrivia.Insert(leadingTrivia.Count - 1, SyntaxFactory.Trivia(commentTrivia));
+            string result = await OpenAIDocumentationCommentHelper.GetMethodCommentAsync(declarationSyntax.ToFullString());
+
+            DocumentationCommentTriviaSyntax commentTrivia = SyntaxFactory.ParseLeadingTrivia(result)
+                        .Select(trivia => trivia.GetStructure())
+                        .OfType<DocumentationCommentTriviaSyntax>()
+                        .FirstOrDefault();
+
+
+            SyntaxTriviaList newLeadingTrivia = leadingTrivia.Insert(leadingTrivia.Count - 1, SyntaxFactory.Trivia(commentTrivia));
 			MethodDeclarationSyntax newDeclaration = declarationSyntax.WithLeadingTrivia(newLeadingTrivia);
 
 			SyntaxNode newRoot = root.ReplaceNode(declarationSyntax, newDeclaration);
 			return document.WithSyntaxRoot(newRoot);
 		}
 
-		private static DocumentationCommentTriviaSyntax CreateDocumentationCommentTriviaSyntax(MethodDeclarationSyntax declarationSyntax)
-		{
-			SyntaxList<SyntaxNode> list = SyntaxFactory.List<SyntaxNode>();
-
-			//string methodComment = CommentCreator.CreateMethod(declarationSyntax.Identifier.ValueText);
-			var commentor = new BlazingDocumentor.OpenAI.Commentor();
-
-			return commentor.GetMethodXmlDoc(declarationSyntax.ToFullString());
-
-			//string methodComment = commentor.GetMethodSummary(declarationSyntax.ToFullString());
-
-			//list = list.AddRange(DocumentationCommentHelper.CreateSummaryPartNodes(methodComment));
-
-			//if (declarationSyntax.ParameterList.Parameters.Any())
-			//{
-			//	foreach (ParameterSyntax parameter in declarationSyntax.ParameterList.Parameters)
-			//	{
-			//		string parameterComment = CommentCreator.CreateParameter(parameter);
-			//		list = list.AddRange(DocumentationCommentHelper.CreateParameterPartNodes(parameter.Identifier.ValueText, parameterComment));
-			//	}
-			//}
-
-			//string returnType = declarationSyntax.ReturnType.ToString();
-			//if (returnType != "void")
-			//{
-			//	string returnComment = new ReturnCommentConstruction(declarationSyntax.ReturnType).Comment;
-			//	list = list.AddRange(DocumentationCommentHelper.CreateReturnPartNodes(returnComment));
-			//}
-
-			//return SyntaxFactory.DocumentationCommentTrivia(SyntaxKind.SingleLineDocumentationCommentTrivia, list);
-		}
-	}
+        
+    }
 }

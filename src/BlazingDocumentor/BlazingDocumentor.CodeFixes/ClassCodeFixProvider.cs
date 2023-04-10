@@ -9,6 +9,7 @@ using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using OpenAI_API.Moderation;
 
 namespace BlazingDocumentor
 {
@@ -45,8 +46,15 @@ namespace BlazingDocumentor
 		{
 			SyntaxTriviaList leadingTrivia = declarationSyntax.GetLeadingTrivia();
 
-			string comment = CommentCreator.CreateClass(declarationSyntax.Identifier.ValueText);
-			DocumentationCommentTriviaSyntax commentTrivia = await Task.Run(() => DocumentationCommentHelper.CreateOnlySummaryDocumentationCommentTrivia(comment), cancellationToken);
+            var result = await OpenAIDocumentationCommentHelper.GetClassCommentAsync(declarationSyntax.ToFullString());
+
+            string comment = CommentCreator.CreateClass(declarationSyntax.Identifier.ValueText);
+            DocumentationCommentTriviaSyntax commentTrivia = SyntaxFactory.ParseLeadingTrivia(result)
+                       .Select(trivia => trivia.GetStructure())
+                       .OfType<DocumentationCommentTriviaSyntax>()
+                       .FirstOrDefault();
+
+            //DocumentationCommentTriviaSyntax commentTrivia = await Task.Run(() => DocumentationCommentHelper.CreateOnlySummaryDocumentationCommentTrivia(comment), cancellationToken);
 
 			SyntaxTriviaList newLeadingTrivia = leadingTrivia.Insert(leadingTrivia.Count - 1, SyntaxFactory.Trivia(commentTrivia));
 			ClassDeclarationSyntax newDeclaration = declarationSyntax.WithLeadingTrivia(newLeadingTrivia);
