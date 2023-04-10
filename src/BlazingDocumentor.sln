@@ -3,15 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32922.545
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazingDocumentor", "BlazingDocumentor\BlazingDocumentor\BlazingDocumentor.csproj", "{EC4D04C2-6897-40DE-93DD-DD2FC39F6E87}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazingDocumentor", "BlazingDocumentor\BlazingDocumentor\BlazingDocumentor.csproj", "{EC4D04C2-6897-40DE-93DD-DD2FC39F6E87}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazingDocumentor.CodeFixes", "BlazingDocumentor\BlazingDocumentor.CodeFixes\BlazingDocumentor.CodeFixes.csproj", "{C5FF8311-420B-4718-8522-28C5C531043D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazingDocumentor.CodeFixes", "BlazingDocumentor\BlazingDocumentor.CodeFixes\BlazingDocumentor.CodeFixes.csproj", "{C5FF8311-420B-4718-8522-28C5C531043D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazingDocumentor.Package", "BlazingDocumentor\BlazingDocumentor.Package\BlazingDocumentor.Package.csproj", "{7C4F67B8-8BA9-4259-879B-6BCFD01B17CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazingDocumentor.Package", "BlazingDocumentor\BlazingDocumentor.Package\BlazingDocumentor.Package.csproj", "{7C4F67B8-8BA9-4259-879B-6BCFD01B17CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazingDocumentor.Test", "BlazingDocumentor\BlazingDocumentor.Test\BlazingDocumentor.Test.csproj", "{AD726B8A-7220-49C2-8A5A-2DD93B1AD97E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazingDocumentor.Test", "BlazingDocumentor\BlazingDocumentor.Test\BlazingDocumentor.Test.csproj", "{AD726B8A-7220-49C2-8A5A-2DD93B1AD97E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazingDocumentor.Vsix", "BlazingDocumentor\BlazingDocumentor.Vsix\BlazingDocumentor.Vsix.csproj", "{7D5E6494-15BD-40B5-97ED-8AEB1A4E7E3B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazingDocumentor.OpenAI", "BlazingDocumentor.OpenAI\BlazingDocumentor.OpenAI.csproj", "{40441025-ADD1-4660-BC23-212A17B1C36F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{7D5E6494-15BD-40B5-97ED-8AEB1A4E7E3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D5E6494-15BD-40B5-97ED-8AEB1A4E7E3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7D5E6494-15BD-40B5-97ED-8AEB1A4E7E3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40441025-ADD1-4660-BC23-212A17B1C36F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40441025-ADD1-4660-BC23-212A17B1C36F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40441025-ADD1-4660-BC23-212A17B1C36F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40441025-ADD1-4660-BC23-212A17B1C36F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

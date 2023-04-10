@@ -57,7 +57,10 @@ namespace BlazingDocumentor
 		{
 			SyntaxList<SyntaxNode> list = SyntaxFactory.List<SyntaxNode>();
 
-			string methodComment = CommentCreator.CreateMethod(declarationSyntax.Identifier.ValueText);
+			//string methodComment = CommentCreator.CreateMethod(declarationSyntax.Identifier.ValueText);
+			var commentor = new BlazingDocumentor.OpenAI.Commentor();
+
+			string methodComment = commentor.GetMethodSummary(declarationSyntax.ToFullString());
 			list = list.AddRange(DocumentationCommentHelper.CreateSummaryPartNodes(methodComment));
 
 			if (declarationSyntax.ParameterList.Parameters.Any())
