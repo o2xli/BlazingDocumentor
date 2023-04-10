@@ -41,5 +41,14 @@ namespace BlazingDocumentor.Test
 
             Assert.IsNotNull(result);
         }
+
+        [TestMethod]
+        public void TestCodeCommentor2()
+        {
+            var oa = new BlazingDocumentor.OpenAI.Commentor();
+            var result = oa.GetMethodXmlDoc(testCode);
+
+            Assert.IsNotNull(result);
+        }
     }
 }

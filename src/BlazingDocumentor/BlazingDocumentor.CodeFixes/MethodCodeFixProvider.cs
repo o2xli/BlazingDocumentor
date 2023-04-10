@@ -60,26 +60,29 @@ namespace BlazingDocumentor
 			//string methodComment = CommentCreator.CreateMethod(declarationSyntax.Identifier.ValueText);
 			var commentor = new BlazingDocumentor.OpenAI.Commentor();
 
-			string methodComment = commentor.GetMethodSummary(declarationSyntax.ToFullString());
-			list = list.AddRange(DocumentationCommentHelper.CreateSummaryPartNodes(methodComment));
+			return commentor.GetMethodXmlDoc(declarationSyntax.ToFullString());
 
-			if (declarationSyntax.ParameterList.Parameters.Any())
-			{
-				foreach (ParameterSyntax parameter in declarationSyntax.ParameterList.Parameters)
-				{
-					string parameterComment = CommentCreator.CreateParameter(parameter);
-					list = list.AddRange(DocumentationCommentHelper.CreateParameterPartNodes(parameter.Identifier.ValueText, parameterComment));
-				}
-			}
+			//string methodComment = commentor.GetMethodSummary(declarationSyntax.ToFullString());
 
-			string returnType = declarationSyntax.ReturnType.ToString();
-			if (returnType != "void")
-			{
-				string returnComment = new ReturnCommentConstruction(declarationSyntax.ReturnType).Comment;
-				list = list.AddRange(DocumentationCommentHelper.CreateReturnPartNodes(returnComment));
-			}
+			//list = list.AddRange(DocumentationCommentHelper.CreateSummaryPartNodes(methodComment));
 
-			return SyntaxFactory.DocumentationCommentTrivia(SyntaxKind.SingleLineDocumentationCommentTrivia, list);
+			//if (declarationSyntax.ParameterList.Parameters.Any())
+			//{
+			//	foreach (ParameterSyntax parameter in declarationSyntax.ParameterList.Parameters)
+			//	{
+			//		string parameterComment = CommentCreator.CreateParameter(parameter);
+			//		list = list.AddRange(DocumentationCommentHelper.CreateParameterPartNodes(parameter.Identifier.ValueText, parameterComment));
+			//	}
+			//}
+
+			//string returnType = declarationSyntax.ReturnType.ToString();
+			//if (returnType != "void")
+			//{
+			//	string returnComment = new ReturnCommentConstruction(declarationSyntax.ReturnType).Comment;
+			//	list = list.AddRange(DocumentationCommentHelper.CreateReturnPartNodes(returnComment));
+			//}
+
+			//return SyntaxFactory.DocumentationCommentTrivia(SyntaxKind.SingleLineDocumentationCommentTrivia, list);
 		}
 	}
 }
