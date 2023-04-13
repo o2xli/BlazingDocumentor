@@ -45,8 +45,9 @@ namespace BlazingDocumentor
 		private async Task<Document> AddDocumentationHeaderAsync(Document document, SyntaxNode root, ClassDeclarationSyntax declarationSyntax, CancellationToken cancellationToken)
 		{
 			SyntaxTriviaList leadingTrivia = declarationSyntax.GetLeadingTrivia();
+            SyntaxTrivia indentTrivia = leadingTrivia.LastOrDefault(trivia => trivia.IsKind(SyntaxKind.WhitespaceTrivia));
 
-            var result = await OpenAIDocumentationCommentHelper.GetClassCommentAsync(declarationSyntax.ToFullString());
+            var result = await OpenAIDocumentationCommentHelper.GetClassCommentAsync(declarationSyntax.ToFullString(), indentTrivia.ToFullString());
 
             string comment = CommentCreator.CreateClass(declarationSyntax.Identifier.ValueText);
             DocumentationCommentTriviaSyntax commentTrivia = SyntaxFactory.ParseLeadingTrivia(result)
@@ -54,12 +55,13 @@ namespace BlazingDocumentor
                        .OfType<DocumentationCommentTriviaSyntax>()
                        .FirstOrDefault();
 
-            //DocumentationCommentTriviaSyntax commentTrivia = await Task.Run(() => DocumentationCommentHelper.CreateOnlySummaryDocumentationCommentTrivia(comment), cancellationToken);
 
-			SyntaxTriviaList newLeadingTrivia = leadingTrivia.Insert(leadingTrivia.Count - 1, SyntaxFactory.Trivia(commentTrivia));
-			ClassDeclarationSyntax newDeclaration = declarationSyntax.WithLeadingTrivia(newLeadingTrivia);
+			SyntaxTriviaList newLeadingTrivia = leadingTrivia.Insert(0, SyntaxFactory.Trivia(commentTrivia));
+            newLeadingTrivia = newLeadingTrivia.Insert(0, indentTrivia);
 
-			SyntaxNode newRoot = root.ReplaceNode(declarationSyntax, newDeclaration);
+            ClassDeclarationSyntax newDeclaration = declarationSyntax.WithLeadingTrivia(newLeadingTrivia);
+
+			SyntaxNode newRoot = root.ReplaceNode(declarationSyntax, newDeclaration).NormalizeWhitespace();
 			return document.WithSyntaxRoot(newRoot);
 		}
 	}

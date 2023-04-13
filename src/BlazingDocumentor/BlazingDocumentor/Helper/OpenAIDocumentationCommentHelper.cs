@@ -12,7 +12,7 @@ namespace BlazingDocumentor.Helper
     public static class OpenAIDocumentationCommentHelper
     {
 
-        public static async Task<string> GetClassCommentAsync(string declarationString)
+        public static async Task<string> GetClassCommentAsync(string declarationString, string indent)
         {
             if (TryGetCache(declarationString, out var cacheValue))
                 return cacheValue;
@@ -24,11 +24,12 @@ namespace BlazingDocumentor.Helper
             chat.AppendUserInput($"Here is the source code of the class:\n{declarationString}");
 
             var result = await chat.GetResponseFromChatbotAsync() + "\n";
+            result = result.Replace("///", indent + "///");
 
             return result;
         }
 
-        public static async Task<string> GetMethodCommentAsync(string declarationString)
+        public static async Task<string> GetMethodCommentAsync(string declarationString, string indent)
         {
             if (TryGetCache(declarationString, out var cacheValue))
                 return cacheValue;
@@ -36,11 +37,12 @@ namespace BlazingDocumentor.Helper
             OpenAIAPI api = new OpenAIAPI();
             var chat = api.Chat.CreateConversation();
 
-            chat.AppendSystemMessage("Based on the source code provided, give me a XML comment of a C# method. Limit the max length of a line to 100 chars. Add links to object types.");
+            chat.AppendSystemMessage("Based on the source code provided, give me a XML comment of a C# method. Limit the max length of a line to 100 chars. Add links to object types. But do not add seealso tags.");
 
             chat.AppendUserInput($"Here is the source code of the method:\n{declarationString}");
 
             var result = await chat.GetResponseFromChatbotAsync() + "\n";
+            result = result.Replace("///", indent + "///");
 
             SetCache(declarationString, result);
 

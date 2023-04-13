@@ -3,6 +3,7 @@ using System.Composition;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using BlazingDocumentor.Helper;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeActions;
@@ -42,25 +43,44 @@ namespace BlazingDocumentor
 				diagnostic);
 		}
 
-		private async Task<Document> AddDocumentationHeaderAsync(Document document, SyntaxNode root, MethodDeclarationSyntax declarationSyntax, CancellationToken cancellationToken)
-		{
-			SyntaxTriviaList leadingTrivia = declarationSyntax.GetLeadingTrivia();
+        //private async Task<Document> AddDocumentationHeaderAsync(Document document, SyntaxNode root, MethodDeclarationSyntax declarationSyntax, CancellationToken cancellationToken)
+        //{
+        //    SyntaxTriviaList leadingTrivia = declarationSyntax.GetLeadingTrivia();
 
-            string result = await OpenAIDocumentationCommentHelper.GetMethodCommentAsync(declarationSyntax.ToFullString());
+        //    string result = await OpenAIDocumentationCommentHelper.GetMethodCommentAsync(declarationSyntax.ToFullString());
+
+        //    DocumentationCommentTriviaSyntax commentTrivia = SyntaxFactory.ParseLeadingTrivia(result)
+        //                .Select(trivia => trivia.GetStructure())
+        //                .OfType<DocumentationCommentTriviaSyntax>()
+        //                .FirstOrDefault();
+
+
+        //    SyntaxTriviaList newLeadingTrivia = leadingTrivia.Insert(leadingTrivia.Count - 1, SyntaxFactory.Trivia(commentTrivia));
+        //    MethodDeclarationSyntax newDeclaration = declarationSyntax.WithLeadingTrivia(newLeadingTrivia);
+
+        //    SyntaxNode newRoot = root.ReplaceNode(declarationSyntax, newDeclaration);
+        //    return document.WithSyntaxRoot(newRoot);
+        //}
+
+        private async Task<Document> AddDocumentationHeaderAsync(Document document, SyntaxNode root, MethodDeclarationSyntax declarationSyntax, CancellationToken cancellationToken)
+        {
+            SyntaxTriviaList leadingTrivia = declarationSyntax.GetLeadingTrivia();
+            SyntaxTrivia indentTrivia = leadingTrivia.LastOrDefault(trivia => trivia.IsKind(SyntaxKind.WhitespaceTrivia));
+
+            string result = await OpenAIDocumentationCommentHelper.GetMethodCommentAsync(declarationSyntax.ToFullString(), indentTrivia.ToFullString());
 
             DocumentationCommentTriviaSyntax commentTrivia = SyntaxFactory.ParseLeadingTrivia(result)
-                        .Select(trivia => trivia.GetStructure())
-                        .OfType<DocumentationCommentTriviaSyntax>()
-                        .FirstOrDefault();
+                .Select(trivia => trivia.GetStructure())
+                .OfType<DocumentationCommentTriviaSyntax>()
+                .FirstOrDefault();
 
+            SyntaxTriviaList newLeadingTrivia = leadingTrivia.Insert(0, SyntaxFactory.Trivia(commentTrivia));
+            newLeadingTrivia = newLeadingTrivia.Insert(0, indentTrivia);
 
-            SyntaxTriviaList newLeadingTrivia = leadingTrivia.Insert(leadingTrivia.Count - 1, SyntaxFactory.Trivia(commentTrivia));
-			MethodDeclarationSyntax newDeclaration = declarationSyntax.WithLeadingTrivia(newLeadingTrivia);
+            MethodDeclarationSyntax newDeclaration = declarationSyntax.WithLeadingTrivia(newLeadingTrivia);
 
-			SyntaxNode newRoot = root.ReplaceNode(declarationSyntax, newDeclaration);
-			return document.WithSyntaxRoot(newRoot);
-		}
-
-        
+            SyntaxNode newRoot = root.ReplaceNode(declarationSyntax, newDeclaration);
+            return document.WithSyntaxRoot(newRoot);
+        }
     }
 }

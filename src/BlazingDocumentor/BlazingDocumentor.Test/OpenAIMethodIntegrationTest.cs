@@ -53,8 +53,7 @@ namespace ConsoleApp4
         [TestMethod]        
         public async Task OpenAITest()
         {
-            var result = await OpenAIDocumentationCommentHelper.GetMethodCommentAsync(PrivateClassTestCode);
-            result = await OpenAIDocumentationCommentHelper.GetMethodCommentAsync(PrivateClassTestCode);
+            var result = await OpenAIDocumentationCommentHelper.GetMethodCommentAsync(PrivateClassTestCode,"\t\t");
         }
     }
 }

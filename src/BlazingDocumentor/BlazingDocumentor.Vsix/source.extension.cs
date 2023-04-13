@@ -11,7 +11,7 @@ namespace BlazingDocumentor
         public const string Name = "BlazingDocumentor";
         public const string Description = @"An automated C# Documentation Comment generator.";
         public const string Language = "en-US";
-        public const string Version = "1.0";
+        public const string Version = "1.2.3";
         public const string Author = "Oliver Schmidt";
         public const string Tags = "";
     }
